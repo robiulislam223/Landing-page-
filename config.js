@@ -55,7 +55,7 @@ const CONFIG = {
      (আগে আপনার bot-এ একবার Start চাপতে হবে।)
      সতর্কতা: এখানে টোকেন বসালে সাইটের সোর্স-কোডে যে কেউ দেখতে পারবে।
      বেশি নিরাপদ চাইলে টোকেন না বসিয়ে ওপরের orderWebhook (Apps Script) ব্যবহার করুন। */
-  telegram: { botToken: "8929061949:AAEE4v2brbHUoTStjYe11lt5RDr1Co2u5dE", chatId: "8738715995" },
+  telegram: { botToken: "8929061949:AAEE4v2brbHUoTStjYe11lt5RDr1Co2u5dE", chatId: "8929061949" },
 
   /* ---------- মেনু ---------- */
   nav: [
