@@ -239,11 +239,15 @@
     ].filter((x, i, a) => !(x === "" && (i === 0 || a[i - 1] === ""))).join("\n");
   }
   async function sendTelegram(text) {
-    const tg = C.telegram || {};
-    if (!tg.botToken || !tg.chatId || /PASTE/.test(tg.botToken)) return;
+    const tg = C.telegram || {}, dbg = /[?&]debug/.test(location.search);
+    const token = String(tg.botToken || "").trim(), chat = String(tg.chatId || "").trim();
+    if (!token || !chat || /PASTE/.test(token)) { if (dbg) alert("Telegram: config.js-এ টোকেন বসানো হয়নি।"); return; }
     try {
-      await fetch(`https://api.telegram.org/bot${tg.botToken}/sendMessage`, { method: "POST", mode: "no-cors", body: new URLSearchParams({ chat_id: tg.chatId, text }) });
-    } catch {}
+      const r = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, { method: "POST", body: new URLSearchParams({ chat_id: chat, text }) });
+      const j = await r.json().catch(() => null);
+      if (dbg) alert(j && j.ok ? "Telegram: মেসেজ পাঠানো হয়েছে ✅" : "Telegram ত্রুটি: " + (j ? j.description : "উত্তর পড়া যায়নি"));
+      else if (j && !j.ok) console.warn("Telegram:", j.description);
+    } catch (e) { if (dbg) alert("Telegram: পাঠাতে সমস্যা — " + e.message); }
   }
   const waLink = text => `https://wa.me/${C.whatsappNumber}?text=${encodeURIComponent(text)}`;
 
@@ -294,3 +298,4 @@
   const bar = $("#stickyBar");
   new IntersectionObserver(([en]) => bar.classList.toggle("hide", en.isIntersecting), { threshold: 0.12 }).observe($("#order"));
 })();
+      
